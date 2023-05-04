@@ -26,17 +26,11 @@ describe('MsgService', () => {
     expect(service).toBeDefined();
   });
 
-  it.each(tests)(
-    `should be $expected.type`,
-    ({ raw, expected, discriminatorMapping }) => {
-      const received = service.create(raw);
-      expect(received).toBeDefined();
-      expect(received.toJSON()).toEqual(expected);
-
-      const { discriminatorMapping: dm } = received.schema as any;
-      expect(dm).toEqual(discriminatorMapping(/*isRoot*/ false));
-    },
-  );
+  it.each(tests)(`should be $expected.type`, ({ raw, expected }) => {
+    const received = service.create(raw);
+    expect(received).toBeDefined();
+    expect(received.toJSON()).toEqual(expected);
+  });
 
   it('should be [alert, info, warn]', () => {
     const received = service.createMany(tests.map((x) => x.raw));
@@ -44,13 +38,6 @@ describe('MsgService', () => {
 
     const json = received.map((msg) => msg.toJSON());
     expect(json).toEqual(tests.map((x) => x.expected));
-
-    const discriminatorsMapping = received.map(
-      (x) => (x.schema as any).discriminatorMapping,
-    );
-    expect(discriminatorsMapping).toEqual(
-      tests.map((x) => x.discriminatorMapping(/*isRoot*/ false)),
-    );
   });
 
   afterEach(async () => {

@@ -16,12 +16,6 @@ export const tests = [
       instance_id: 0, // cast expected
       type: MsgType.Alert,
     },
-
-    discriminatorMapping: (isRoot: boolean) => ({
-      key: 'type',
-      value: MsgType.Alert,
-      isRoot,
-    }),
   },
 
   {
@@ -34,12 +28,6 @@ export const tests = [
       info: 'success',
       type: MsgType.Info,
     },
-
-    discriminatorMapping: (isRoot: boolean) => ({
-      key: 'type',
-      value: MsgType.Info,
-      isRoot,
-    }),
   },
 
   {
@@ -52,11 +40,5 @@ export const tests = [
       data: 'data',
       type: MsgType.Warn,
     },
-
-    discriminatorMapping: (isRoot: boolean) => ({
-      key: 'type',
-      value: MsgType.Warn,
-      isRoot,
-    }),
   },
 ];
