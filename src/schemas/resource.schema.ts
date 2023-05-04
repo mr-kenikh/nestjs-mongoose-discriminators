@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
+import { discriminators, MsgSchema } from './msg.schema';
 import { MsgUnion } from './msg.types';
-import { MsgSchema } from './msg.schema';
 
 @Schema({
   toJSON: {
@@ -22,3 +22,10 @@ export class Resource {
 
 export type ResourceDocument = HydratedDocument<Resource>;
 export const ResourceSchema = SchemaFactory.createForClass(Resource);
+
+for (const discriminator of discriminators) {
+  ResourceSchema.path<MongooseSchema.Types.Array>('msgs').discriminator(
+    discriminator.name,
+    discriminator.schema,
+  );
+}
